@@ -46,5 +46,3 @@ for step in range(1,time_steps):
 
    time_values[step] = step * dt
 
-print(s_values[:5])
-print(i_values[:5])
