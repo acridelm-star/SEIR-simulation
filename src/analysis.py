@@ -161,5 +161,3 @@ def compare_parameters(beta, sigma, gamma):
     plt.savefig(f"../plots/all_parameters/seir_simulation_parameters_{beta}_{sigma}_{gamma}.png")
     plt.show()
     return fig
-
-compare_parameters(0.2, 1, 0.5)
