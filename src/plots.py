@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from simulation import simulation
 
 #Run the simulation and store the results
-time, s, e, i, r = simulation(0.99, 0.1, 0, 0, 100, 0.1)
+time, s, e, i, r = simulation(0.99, 0.1, 0, 0, 100, 0.1, 1, 1, 0.1)
 
 #Plot the results
 fig, ax = plt.subplots()

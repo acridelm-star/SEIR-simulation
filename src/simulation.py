@@ -3,7 +3,7 @@
 import numpy as np
 from seir_model import *
 
-def simulation(s0, e0, i0, r0, time, dt):
+def simulation(s0, e0, i0, r0, time, dt, beta, sigma, gamma):
    '''Simulation of an SEIR model that takes in the initial values of the susceptible, exposed, infected, and recovered populations,
    as well as the total time of the simulation and the time step. The function returns arrays containing the values of each population at each time step.'''
    
@@ -33,10 +33,10 @@ def simulation(s0, e0, i0, r0, time, dt):
       r = r_values[step - 1]
       
       #Calculate the rate 
-      s_rate = ds_dt(s, e, i, r)
-      e_rate = de_dt(s, e, i, r)
-      i_rate = di_dt(s, e, i, r)
-      r_rate = dr_dt(s, e, i, r)
+      s_rate = ds_dt(s, e, i, r, beta, sigma, gamma)
+      e_rate = de_dt(s, e, i, r, beta, sigma, gamma)
+      i_rate = di_dt(s, e, i, r, beta, sigma, gamma)
+      r_rate = dr_dt(s, e, i, r, beta, sigma, gamma)
 
       #Update the values
       s_values[step] = s + (s_rate * dt)
