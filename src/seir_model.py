@@ -1,7 +1,9 @@
+#Define initial parameters
 beta = 1
 sigma = 1
 gamma = 0.1
 
+#Define the SEIR equations 
 def ds_dt(s, e, i, r):
     return -beta * s * i
 
