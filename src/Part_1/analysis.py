@@ -41,7 +41,7 @@ def compare_beta(beta):
     ax[1,1].legend()
 
     plt.tight_layout()
-    plt.savefig(f"../plots/beta_changes/seir_simulation_beta_{beta}.png")
+    plt.savefig(f"../../plots/beta_changes/seir_simulation_beta_{beta}.png")
     plt.show()
     return fig
 
@@ -83,7 +83,7 @@ def compare_sigma(sigma):
     ax[1,1].legend()
 
     plt.tight_layout()
-    plt.savefig(f"../plots/sigma_changes/seir_simulation_sigma_{sigma}.png")
+    plt.savefig(f"../../plots/sigma_changes/seir_simulation_sigma_{sigma}.png")
     plt.show()
     return fig
 
@@ -125,7 +125,7 @@ def compare_gamma(gamma):
     ax[1,1].legend()
 
     plt.tight_layout()
-    plt.savefig(f"../plots/gamma_changes/seir_simulation_gamma_{gamma}.png")
+    plt.savefig(f"../../plots/gamma_changes/seir_simulation_gamma_{gamma}.png")
     plt.show()
     return fig
 
@@ -158,6 +158,6 @@ def compare_parameters(beta, sigma, gamma):
     ax[1].legend()
 
     plt.tight_layout()
-    plt.savefig(f"../plots/all_parameters/seir_simulation_parameters_{beta}_{sigma}_{gamma}.png")
+    plt.savefig(f"../../plots/all_parameters/seir_simulation_parameters_{beta}_{sigma}_{gamma}.png")
     plt.show()
     return fig
