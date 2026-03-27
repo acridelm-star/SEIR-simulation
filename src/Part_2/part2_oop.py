@@ -10,13 +10,21 @@ E = 2
 I = 3
 R = 4
 
+#Define colours for plotting
+colours = {
+    EMPTY: "white",
+    S: "cornflowerblue",
+    E: "orange",
+    I: "green",
+    R: "red"
+}
+
 #Create the agent class
 class agent:
     def __init__(self, x, y, state):
         self.x = x
         self.y = y
         self.state = state
-        self.time_in_state = 0
 
     #Method to move the agent 
     def move(self, dx, dy):
@@ -26,7 +34,7 @@ class agent:
 
 #Create the simulation
 class simulation:
-    def __init__(self, width = 100, height = 100, num_agents = 250, s_prob = 0.95, e_prob = 0.05, sigma = 0.1):
+    def __init__(self, width = 100, height = 100, num_agents = 250, s_prob = 0.95, e_prob = 0.05, sigma = 0.1, beta = 1, gamma = 0.005):
         self.width = width
         self.height = height
         self.lattice = np.zeros((height, width), dtype=int)
@@ -36,7 +44,8 @@ class simulation:
         self.s_prob = s_prob
         self.e_prob = e_prob
         self.sigma = sigma
-
+        self.beta = beta
+        self.gamma = gamma
 
     #Method to randomly place agents on the lattice
     def place_agents(self):
@@ -95,14 +104,68 @@ class simulation:
             elif direction == "right":
                 self.attempt_move(agent, 1, 0)
 
+    #Method to check if an agent is infected
+    def check_infected(self, agent):
+        #Check if cells adjacent contain an infected agent while keeping hard wall boundary
+        if agent.x > 0 and self.lattice[agent.y, agent.x - 1] == I:
+            return True
+        if agent.x < self.width - 1 and self.lattice[agent.y, agent.x + 1] == I:
+            return True
+        if agent.y > 0 and self.lattice[agent.y - 1, agent.x] == I:
+            return True
+        if agent.y < self.height - 1 and self.lattice[agent.y + 1, agent.x] == I:
+            return True
+        return False
+
+    #Method to update the state of the agents
+    def update_states(self):
+        rng = np.random.default_rng()
+        to_expose = []
+        to_infect = []
+        to_recover = []
+
+        #Loop through the agents and determine whether they will be updated this time step, if so store in a corresponding list 
+        for agent in self.agents:
+            if agent.state == S and self.check_infected(agent):
+                if rng.random() < self.beta:
+                    to_expose.append(agent)
+            elif agent.state == E:
+                if rng.random() < self.sigma:
+                    to_infect.append(agent)
+            elif agent.state == I:
+                if rng.random() < self.gamma:
+                    to_recover.append(agent)
+        
+        #S-->E
+        for agent in to_expose:
+            agent.state = E
+            self.lattice[agent.y, agent.x] = E
+        
+        #E-->I
+        for agent in to_infect:
+            agent.state = I
+            self.lattice[agent.y, agent.x] = I
+        
+        #I-->R
+        for agent in to_recover:
+            agent.state = R
+            self.lattice[agent.y, agent.x] = R
+
+
+
     #Method to plot the lattice
     def plot_lattice(self):
         x = [agent.x for agent in self.agents]
         y = [agent.y for agent in self.agents]
-        states = [agent.state for agent in self.agents]
+        states = [colours[agent.state] for agent in self.agents]
         
         fig, ax = plt.subplots(1,2, figsize=(14,6))
-        ax[0].scatter(x, y, c = states)
+        for state, label in [(S, "Susceptible"), (E, "Exposed"), (I, "Infected"), (R, "Recovered")]:
+                x = [agent.x for agent in self.agents if agent.state == state]
+                y = [agent.y for agent in self.agents if agent.state == state]
+                states = [colours[agent.state] for agent in self.agents if agent.state == state]
+
+                ax[0].scatter(x, y, c = states, label = label)
 
         ax[0].set_xlim(0, self.width)
         ax[0].set_ylim(0, self.height)
@@ -111,29 +174,26 @@ class simulation:
         ax[0].set_xlabel("X position")
         ax[0].set_ylabel("Y position")
         ax[0].set_title("")
+        ax[0].legend(loc="center left", bbox_to_anchor=(1.02, 0.5), borderaxespad=0.0)
 
+        plt.tight_layout()
         plt.show()
 
     #Method to animate the lattice
     def animate_lattice(self, steps, pause):
-       
-        fig, ax = plt.subplots(figsize=(7,7))
-
-        x = [agent.x for agent in self.agents]
-        y = [agent.y for agent in self.agents]
-        states = [agent.state for agent in self.agents]
-
-        ax.scatter(x, y, c = states)
-
-        
+        fig, ax = plt.subplots(figsize=(14,7))
+      
         def update(frame):
             self.move_agents()
-
-            x = [agent.x for agent in self.agents]
-            y = [agent.y for agent in self.agents]
-            states = [agent.state for agent in self.agents]
+            self.update_states()
             ax.clear()
-            ax.scatter(x, y, c = states)
+
+            for state, label in [(S, "Susceptible"), (E, "Exposed"), (I, "Infected"), (R, "Recovered")]:
+                x = [agent.x for agent in self.agents if agent.state == state]
+                y = [agent.y for agent in self.agents if agent.state == state]
+                states = [colours[agent.state] for agent in self.agents if agent.state == state]
+
+                ax.scatter(x, y, c = states, label = label)
 
             ax.set_xlim(0, self.width)
             ax.set_ylim(0, self.height)
@@ -143,6 +203,7 @@ class simulation:
             ax.set_ylabel("Y position")
             ax.set_title("Monte Carlo simulation of an SEIR model")
 
+            ax.legend(loc="center left", bbox_to_anchor=(1.02, 0.5), borderaxespad=0.0)
             return ax,
 
         self.anim = FuncAnimation(fig, update, frames = steps, interval = pause*1000, blit = False)
