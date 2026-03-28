@@ -98,7 +98,8 @@ class simulation:
 
         for agent in self.agents:
 
-            direction = rng.choice(["up", "down", "left", "right"])
+            direction = rng.choice(["up", "down", "left", "right", "up_left", "up_right",
+                                     "down_left", "down_right"])
 
             if direction == "up":
                 self.attempt_move(agent, 0, 1)
@@ -108,6 +109,14 @@ class simulation:
                 self.attempt_move(agent, -1, 0)
             elif direction == "right":
                 self.attempt_move(agent, 1, 0)
+            elif direction == "up_left":
+                self.attempt_move(agent, -1, 1)
+            elif direction == "up_right":
+                self.attempt_move(agent, 1, 1)
+            elif direction == "down_left":
+                self.attempt_move(agent, -1, -1)
+            elif direction == "down_right":
+                self.attempt_move(agent, 1, -1)
 
     #Method to check if an agent is infected
     def check_infected(self, agent):
@@ -120,6 +129,16 @@ class simulation:
             return True
         if agent.y < self.height - 1 and self.lattice[agent.y + 1, agent.x] == I:
             return True
+        
+        if agent.x > 0 and agent.y > 0 and self.lattice[agent.y - 1, agent.x - 1] == I:
+            return True
+        if agent.x < self.width - 1 and agent.y > 0 and self.lattice[agent.y - 1, agent.x + 1] == I:
+            return True
+        if agent.x > 0 and agent.y < self.height - 1 and self.lattice[agent.y + 1, agent.x - 1] == I:
+            return True
+        if agent.x < self.width - 1 and agent.y < self.height - 1 and self.lattice[agent.y + 1, agent.x + 1] == I:
+            return True
+        
         return False
 
     #Method to update the state of the agents
@@ -270,6 +289,3 @@ class simulation:
         self.anim = FuncAnimation(fig, update, frames = steps, interval = pause, blit = False)
         
         plt.show()
-
-
-
