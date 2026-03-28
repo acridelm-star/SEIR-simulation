@@ -47,6 +47,11 @@ class simulation:
         self.beta = beta
         self.gamma = gamma
 
+        self.S_hist = []
+        self.E_hist = []
+        self.I_hist = []
+        self.R_hist = []
+
     #Method to randomly place agents on the lattice
     def place_agents(self):
         rng = np.random.default_rng()
@@ -151,6 +156,36 @@ class simulation:
             agent.state = R
             self.lattice[agent.y, agent.x] = R
 
+    #Methods to count the number of agents in each state per step and record them for plotting 
+    def count_states(self):
+        s = 0
+        e = 0
+        i = 0
+        r = 0
+        for agent in self.agents:
+            if agent.state == S:
+                s += 1
+            elif agent.state == E:
+                e += 1
+            elif agent.state == I:
+                i += 1
+            elif agent.state == R:
+                r += 1
+        return s, e, i, r
+    
+    def record_states(self):
+        s, e, i, r = self.count_states()
+        self.S_hist.append(s)
+        self.E_hist.append(e)
+        self.I_hist.append(i)
+        self.R_hist.append(r)
+
+    #Method to run the simulation for a given number of steps
+    def run(self, steps):
+            for i in range(steps):
+                self.move_agents()
+                self.update_states()
+                self.record_states()
 
 
     #Method to plot the lattice
@@ -173,47 +208,68 @@ class simulation:
 
         ax[0].set_xlabel("X position")
         ax[0].set_ylabel("Y position")
-        ax[0].set_title("")
+        ax[0].set_title("Monte Carlo simulation of an SEIR model")
         ax[0].legend(loc="center left", bbox_to_anchor=(1.02, 0.5), borderaxespad=0.0)
+
+        ax[1].plot(range(len(self.S_hist)), self.S_hist, label = "Susceptible", color = colours[S])
+        ax[1].plot(range(len(self.E_hist)), self.E_hist, label = "Exposed", color = colours[E])
+        ax[1].plot(range(len(self.I_hist)), self.I_hist, label = "Infected", color = colours[I])
+        ax[1].plot(range(len(self.R_hist)), self.R_hist, label = "Recovered", color = colours[R])
+
+        ax[1].set_xlabel("Monte Carlo step")
+        ax[1].set_ylabel("Number of Agents")
+        ax[1].set_title("Monte Carlo simulation of an SEIR model")
+        ax[1].legend()
 
         plt.tight_layout()
         plt.show()
 
     #Method to animate the lattice
     def animate_lattice(self, steps, pause):
-        fig, ax = plt.subplots(figsize=(14,7))
+        fig, ax = plt.subplots(1,2, figsize=(14,7))
       
         def update(frame):
             self.move_agents()
             self.update_states()
-            ax.clear()
+            self.record_states()
+
+            ax[0].clear()
+            ax[1].clear()
 
             for state, label in [(S, "Susceptible"), (E, "Exposed"), (I, "Infected"), (R, "Recovered")]:
                 x = [agent.x for agent in self.agents if agent.state == state]
                 y = [agent.y for agent in self.agents if agent.state == state]
                 states = [colours[agent.state] for agent in self.agents if agent.state == state]
 
-                ax.scatter(x, y, c = states, label = label)
+                ax[0].scatter(x, y, c = states, label = label)
 
-            ax.set_xlim(0, self.width)
-            ax.set_ylim(0, self.height)
-            ax.set_aspect("equal", adjustable="box")
+            ax[0].set_xlim(0, self.width)
+            ax[0].set_ylim(0, self.height)
+            ax[0].set_aspect("equal", adjustable="box")
 
-            ax.set_xlabel("X position")
-            ax.set_ylabel("Y position")
-            ax.set_title("Monte Carlo simulation of an SEIR model")
+            ax[0].set_xlabel("X position")
+            ax[0].set_ylabel("Y position")
+            ax[0].set_title("Monte Carlo simulation of an SEIR model")
 
-            ax.legend(loc="center left", bbox_to_anchor=(1.02, 0.5), borderaxespad=0.0)
-            return ax,
+            ax[0].legend(loc="lower center", bbox_to_anchor=(0.5, -0.15), borderaxespad=0.0, ncols = 4)
 
-        self.anim = FuncAnimation(fig, update, frames = steps, interval = pause*1000, blit = False)
+            num_steps = np.arange(len(self.S_hist))
+            ax[1].plot(num_steps, self.S_hist, label="Susceptible")
+            ax[1].plot(num_steps, self.E_hist, label="Exposed")
+            ax[1].plot(num_steps, self.I_hist, label="Infected")
+            ax[1].plot(num_steps, self.R_hist, label="Recovered")
+
+            ax[1].set_xlabel("Monte Carlo step")
+            ax[1].set_ylabel("Number of Agents")
+            ax[1].set_title("Monte Carlo simulation of an SEIR model")
+            ax[1].legend()
+
+
+            return ax[0],ax[1]
+
+        self.anim = FuncAnimation(fig, update, frames = steps, interval = pause, blit = False)
         
         plt.show()
 
-        
-#Visualise the simulation
-if __name__ == "__main__":
-    sim = simulation(width = 100, height = 100, num_agents = 250)
-    sim.place_agents()
-    sim.animate_lattice(steps = 200, pause = 0.05)
+
 
