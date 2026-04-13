@@ -38,7 +38,6 @@ def compare_RK45_Euler(dt, beta, sigma, gamma):
     ax[1,1].legend()
 
     plt.tight_layout()
-    plt.savefig(f"../plots/RK45/seir_simulation_RK45_individual_improved_dt.png")
     plt.show()
     return fig
 

@@ -20,5 +20,4 @@ ax.set_ylabel("Population")
 ax.legend()
 plt.title("SEIR Model Simulation")
 
-plt.savefig("../../plots/seir_simulation_initial_parameters.png")
 plt.show()
