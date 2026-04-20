@@ -41,7 +41,45 @@ def compare_beta(beta):
     ax[1,1].legend()
 
     plt.tight_layout()
-    plt.savefig(f"../../plots/beta_changes/seir_simulation_beta_{beta}.png")
+    plt.show()
+    return fig
+
+def beta_range():
+    ''''A function that creates graphs of the SEIR model for a range of beta values.'''
+
+    beta_values = np.arange(0.1, 1.01, 0.1)
+    
+    fig, ax = plt.subplots(2,2, figsize = (12,8))
+
+    for beta in beta_values:
+        time, s, e, i, r = simulation(0.99, 0.01, 0, 0, 100, 0.1, beta, 1, 0.1)
+        beta_label = f"Beta = {beta:.1f}"
+
+        ax[0,0].plot(time, s, label = beta_label)
+        ax[0,1].plot(time, e, label = beta_label)
+        ax[1,0].plot(time, i, label = beta_label)
+        ax[1,1].plot(time, r, label = beta_label)
+
+    ax[0,0].set_title("Susceptible Population")
+    ax[0,0].set_xlabel("Time (Days)")
+    ax[0,0].set_ylabel("Population")
+
+    ax[0,1].set_title("Exposed Population")
+    ax[0,1].set_xlabel("Time (Days)")
+    ax[0,1].set_ylabel("Population")
+
+    ax[1,0].set_title("Infected Population")
+    ax[1,0].set_xlabel("Time (Days)")
+    ax[1,0].set_ylabel("Population")
+
+    ax[1,1].set_title("Recovered Population")
+    ax[1,1].set_xlabel("Time (Days)")
+    ax[1,1].set_ylabel("Population")
+   
+    plt.suptitle("SEIR for a range of Beta Values 0.1 to 1.0")
+    plt.tight_layout(rect = [0, 0.07, 1, 0.95])
+    handles, labels = ax[0,0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc = "lower center", bbox_to_anchor = (0.5, 0.02), fontsize = 8, ncol = 5)
     plt.show()
     return fig
 
@@ -83,7 +121,45 @@ def compare_sigma(sigma):
     ax[1,1].legend()
 
     plt.tight_layout()
-    plt.savefig(f"../../plots/sigma_changes/seir_simulation_sigma_{sigma}.png")
+    plt.show()
+    return fig
+
+def sigma_range():
+    '''A function that creates graphs of the SEIR model for a range of sigma values.'''
+
+    sigma_values = np.arange(0.1, 1.01, 0.1)
+
+    fig, ax = plt.subplots(2,2, figsize = (12,8))
+
+    for sigma in sigma_values:
+        time, s, e, i, r = simulation(0.99, 0.01, 0, 0, 100, 0.1, 1, sigma, 0.1)
+        sigma_label = f"Sigma = {sigma:.1f}"
+
+        ax[0,0].plot(time, s, label = sigma_label)
+        ax[0,1].plot(time, e, label = sigma_label)
+        ax[1,0].plot(time, i, label = sigma_label)
+        ax[1,1].plot(time, r, label = sigma_label)
+
+    ax[0,0].set_title("Susceptible Population")
+    ax[0,0].set_xlabel("Time (Days)")
+    ax[0,0].set_ylabel("Population")
+
+    ax[0,1].set_title("Exposed Population")
+    ax[0,1].set_xlabel("Time (Days)")
+    ax[0,1].set_ylabel("Population")
+
+    ax[1,0].set_title("Infected Population")
+    ax[1,0].set_xlabel("Time (Days)")
+    ax[1,0].set_ylabel("Population")
+
+    ax[1,1].set_title("Recovered Population")
+    ax[1,1].set_xlabel("Time (Days)")
+    ax[1,1].set_ylabel("Population")
+
+    plt.suptitle("SEIR for a range of Sigma Values 0.1 to 1.0")
+    plt.tight_layout(rect = [0, 0.07, 1, 0.95])
+    handles, labels = ax[0,0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc = "lower center", bbox_to_anchor = (0.5, 0.02), fontsize = 8, ncol = 5)
     plt.show()
     return fig
 
@@ -125,12 +201,50 @@ def compare_gamma(gamma):
     ax[1,1].legend()
 
     plt.tight_layout()
-    plt.savefig(f"../../plots/gamma_changes/seir_simulation_gamma_{gamma}.png")
+    plt.show()
+    return fig
+
+def gamma_range():
+    ''' A function that creates graphs of the SEIR model for a range of gamma values.'''
+
+    gamma_values = np.arange(0.1, 1.01, 0.1)
+
+    fig, ax = plt.subplots(2,2, figsize = (12,8))
+
+    for gamma in gamma_values:
+        time, s, e, i, r = simulation(0.99, 0.01, 0, 0, 100, 0.1, 1, 1, gamma)
+        gamma_label = f"Gamma = {gamma:.1f}"
+
+        ax[0,0].plot(time, s, label = gamma_label)
+        ax[0,1].plot(time, e, label = gamma_label)
+        ax[1,0].plot(time, i, label = gamma_label)
+        ax[1,1].plot(time, r, label = gamma_label)
+
+    ax[0,0].set_title("Susceptible Population")
+    ax[0,0].set_xlabel("Time (Days)")
+    ax[0,0].set_ylabel("Population")
+
+    ax[0,1].set_title("Exposed Population")
+    ax[0,1].set_xlabel("Time (Days)")
+    ax[0,1].set_ylabel("Population")
+
+    ax[1,0].set_title("Infected Population")
+    ax[1,0].set_xlabel("Time (Days)")
+    ax[1,0].set_ylabel("Population")
+
+    ax[1,1].set_title("Recovered Population")
+    ax[1,1].set_xlabel("Time (Days)")
+    ax[1,1].set_ylabel("Population")
+
+    plt.suptitle("SEIR for a range of Gamma Values 0.1 to 1.0")
+    plt.tight_layout(rect = [0, 0.07, 1, 0.95])
+    handles, labels = ax[0,0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc = "lower center", bbox_to_anchor = (0.5, 0.02), fontsize = 8, ncol = 5)
     plt.show()
     return fig
 
 def compare_parameters(beta, sigma, gamma):
-    '''A function that takes the new values of beta, sigma and gamma and runs the simulation. a plot of the original values is returned alomgside a plot of the new values.'''
+    '''A function that takes the new values of beta, sigma and gamma and runs the simulation. a plot of the original values is returned alongside a plot of the new values.'''
     
     #Run the simulation and store the results
     time, s, e, i, r = simulation(0.99, 0.01, 0, 0, 100, 0.1, 1, 1, 0.1)
