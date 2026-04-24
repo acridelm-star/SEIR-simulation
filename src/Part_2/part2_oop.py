@@ -37,8 +37,9 @@ class agent:
 
 #Create the simulation
 class simulation:
-    def __init__(self, width = 100, height = 100, num_agents = 250, s_prob = 0.95, e_prob = 0.05, sigma = 0.1,
-                  beta = 1, gamma = 0.005, alpha = 0.0, delta = 0.0, cure_enabled = False, cure_min = 100):
+    def __init__(self, width = 100, height = 100, num_agents = 250, s_prob = 0.95, sigma = 0.1,
+                  beta = 1, gamma = 0.005, alpha = 0.0, delta = 0.0, cure_enabled = False,
+                  cure_min = 100):
         
         self.width = width
         self.height = height
@@ -47,7 +48,6 @@ class simulation:
         self.agents = []
 
         self.s_prob = s_prob
-        self.e_prob = e_prob
         self.sigma = sigma
         self.beta = beta
         self.gamma = gamma
