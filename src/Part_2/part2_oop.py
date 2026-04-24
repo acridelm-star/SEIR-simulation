@@ -202,7 +202,7 @@ class simulation:
                     to_recover.append(agent)
                 elif r < (self.gamma + self.delta):
                     to_die.append(agent)
-            elif agent.state == R:
+            elif agent.state == R and self.check_infected(agent):
                 if rng.random() < self.alpha and self.check_infected(agent):
                     to_reinfect.append(agent)
         #S-->E
