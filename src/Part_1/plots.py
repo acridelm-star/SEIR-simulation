@@ -2,10 +2,10 @@
 #Import libraries and functions
 import numpy as np
 import matplotlib.pyplot as plt
-from simulation import simulation
+from simulation_RK45 import simulation_RK45
 
 #Run the simulation and store the results
-time, s, e, i, r = simulation(0.99, 0.01, 0, 0, 100,1, 1, 1, 0.1)
+time, s, e, i, r = simulation_RK45(0.99, 0.01, 0, 0, 100,1, 1, 1, 0.1)
 
 #Plot the results
 fig, ax = plt.subplots()

@@ -1,13 +1,13 @@
 #Import libraries and functions
 import numpy as np
 import matplotlib.pyplot as plt
-from simulation import simulation
+from simulation_RK45 import simulation_RK45
 
 def compare_beta(beta):
     '''A function that takes a new value of beta and runs the simulation with both the original value and the new value. Four plots are then returned comparing the susceptible, exposed, infected and recovered at different values of beta.'''
     #Run the simulation and store the results
-    time, s, e, i, r = simulation(0.99, 0.01, 0, 0, 100, 0.1, 1, 1, 0.1)
-    time1, s1, e1, i1, r1 = simulation(0.99, 0.01, 0, 0, 100, 0.1, beta, 1, 0.1)
+    time, s, e, i, r = simulation_RK45(0.99, 0.01, 0, 0, 100, 0.1, 1, 1, 0.1)
+    time1, s1, e1, i1, r1 = simulation_RK45(0.99, 0.01, 0, 0, 100, 0.1, beta, 1, 0.1)
 
     #Plot the results
     fig, ax = plt.subplots(2,2, figsize = (12,6))
@@ -52,7 +52,7 @@ def beta_range():
     fig, ax = plt.subplots(2,2, figsize = (12,8))
 
     for beta in beta_values:
-        time, s, e, i, r = simulation(0.99, 0.01, 0, 0, 100, 0.1, beta, 1, 0.1)
+        time, s, e, i, r = simulation_RK45(0.99, 0.01, 0, 0, 100, 0.1, beta, 1, 0.1)
         beta_label = f"Beta = {beta:.1f}"
 
         ax[0,0].plot(time, s, label = beta_label)
@@ -86,8 +86,8 @@ def beta_range():
 def compare_sigma(sigma):
     '''A function that takes a new value of sigma and runs the simulation with both the original value and the new value. Four plots are then returned comparing the susceptible, exposed, infected and recovered at different values of sigma.'''
     #Run the simulation and store the results
-    time, s, e, i, r = simulation(0.99, 0.01, 0, 0, 100, 0.1, 1, 1, 0.1)
-    time1, s1, e1, i1, r1 = simulation(0.99, 0.01, 0, 0, 100, 0.1, 1, sigma, 0.1)
+    time, s, e, i, r = simulation_RK45(0.99, 0.01, 0, 0, 100, 0.1, 1, 1, 0.1)
+    time1, s1, e1, i1, r1 = simulation_RK45(0.99, 0.01, 0, 0, 100, 0.1, 1, sigma, 0.1)
 
     #Plot the results
     fig, ax = plt.subplots(2,2, figsize = (12,6))
@@ -132,7 +132,7 @@ def sigma_range():
     fig, ax = plt.subplots(2,2, figsize = (12,8))
 
     for sigma in sigma_values:
-        time, s, e, i, r = simulation(0.99, 0.01, 0, 0, 100, 0.1, 1, sigma, 0.1)
+        time, s, e, i, r = simulation_RK45(0.99, 0.01, 0, 0, 100, 0.1, 1, sigma, 0.1)
         sigma_label = f"Sigma = {sigma:.1f}"
 
         ax[0,0].plot(time, s, label = sigma_label)
@@ -166,8 +166,8 @@ def sigma_range():
 def compare_gamma(gamma):
     ''''A function that takes a new value of gamma and runs the simulation with both the original value and the new value. Four plots are then returned comparing the susceptible, exposed, infected and recovered at different values of gamma.'''
     #Run the simulation and store the results
-    time, s, e, i, r = simulation(0.99, 0.01, 0, 0, 100, 0.1, 1, 1, 0.1)
-    time1, s1, e1, i1, r1 = simulation(0.99, 0.01, 0, 0, 100, 0.1, 1, 1, gamma)
+    time, s, e, i, r = simulation_RK45(0.99, 0.01, 0, 0, 100, 0.1, 1, 1, 0.1)
+    time1, s1, e1, i1, r1 = simulation_RK45(0.99, 0.01, 0, 0, 100, 0.1, 1, 1, gamma)
 
     #Plot the results
     fig, ax = plt.subplots(2,2, figsize = (12,6))
@@ -212,7 +212,7 @@ def gamma_range():
     fig, ax = plt.subplots(2,2, figsize = (12,8))
 
     for gamma in gamma_values:
-        time, s, e, i, r = simulation(0.99, 0.01, 0, 0, 100, 0.1, 1, 1, gamma)
+        time, s, e, i, r = simulation_RK45(0.99, 0.01, 0, 0, 100, 0.1, 1, 1, gamma)
         gamma_label = f"Gamma = {gamma:.1f}"
 
         ax[0,0].plot(time, s, label = gamma_label)
@@ -247,8 +247,8 @@ def compare_parameters(beta, sigma, gamma):
     '''A function that takes the new values of beta, sigma and gamma and runs the simulation. a plot of the original values is returned alongside a plot of the new values.'''
     
     #Run the simulation and store the results
-    time, s, e, i, r = simulation(0.99, 0.01, 0, 0, 100, 0.1, 1, 1, 0.1)
-    time1, s1, e1, i1, r1 = simulation(0.99, 0.01, 0, 0, 100, 0.1, beta, sigma, gamma)
+    time, s, e, i, r = simulation_RK45(0.99, 0.01, 0, 0, 100, 0.1, 1, 1, 0.1)
+    time1, s1, e1, i1, r1 = simulation_RK45(0.99, 0.01, 0, 0, 100, 0.1, beta, sigma, gamma)
 
     #Plot the results
     fig, ax = plt.subplots(1,2, figsize = (14,6))
