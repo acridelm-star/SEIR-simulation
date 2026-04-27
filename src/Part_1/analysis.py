@@ -2,6 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from simulation_RK45 import simulation_RK45
+import argparse
 
 def compare_beta(beta):
     '''A function that takes a new value of beta and runs the simulation with both the original value and the new value. Four plots are then returned comparing the susceptible, exposed, infected and recovered at different values of beta.'''
@@ -79,7 +80,7 @@ def beta_range():
     plt.suptitle("SEIR for a range of Beta Values 0.1 to 1.0")
     plt.tight_layout(rect = [0, 0.07, 1, 0.95])
     handles, labels = ax[0,0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc = "lower center", bbox_to_anchor = (0.5, 0.02), fontsize = 8, ncol = 5)
+    fig.legend(handles, labels, loc = "lower center", bbox_to_anchor = (0.5, 0.015), fontsize = 11, ncol = 5)
     plt.show()
     return fig
 
@@ -159,7 +160,7 @@ def sigma_range():
     plt.suptitle("SEIR for a range of Sigma Values 0.1 to 1.0")
     plt.tight_layout(rect = [0, 0.07, 1, 0.95])
     handles, labels = ax[0,0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc = "lower center", bbox_to_anchor = (0.5, 0.02), fontsize = 8, ncol = 5)
+    fig.legend(handles, labels, loc = "lower center", bbox_to_anchor = (0.5, 0.015), fontsize = 11, ncol = 5)
     plt.show()
     return fig
 
@@ -239,7 +240,7 @@ def gamma_range():
     plt.suptitle("SEIR for a range of Gamma Values 0.1 to 1.0")
     plt.tight_layout(rect = [0, 0.07, 1, 0.95])
     handles, labels = ax[0,0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc = "lower center", bbox_to_anchor = (0.5, 0.02), fontsize = 8, ncol = 5)
+    fig.legend(handles, labels, loc = "lower center", bbox_to_anchor = (0.5, 0.015), fontsize = 11, ncol = 5)
     plt.show()
     return fig
 
@@ -274,3 +275,41 @@ def compare_parameters(beta, sigma, gamma):
     plt.tight_layout()
     plt.show()
     return fig
+
+#Allow for paramters to be input from the command line
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description = "Run and visualise the SEIR model")
+
+    parser.add_argument("--comparison", default = "compare_parameters",
+                        choices = ["compare_parameters", "compare_beta", "compare_sigma", "compare_gamma", "beta_range", "sigma_range", "gamma_range"],
+                        help = "Choose which comparison to run")
+
+    
+    #Add arguments for the parameters
+    parser.add_argument("--beta", default = 1.0, type = float)
+    parser.add_argument("--sigma", default = 1.0, type = float)
+    parser.add_argument("--gamma", default = 0.1, type = float)
+
+    args = parser.parse_args()
+
+    #Parse the arguments
+    if args.comparison == "compare_parameters":
+        compare_parameters(args.beta, args.sigma, args.gamma)
+
+    elif args.comparison == "compare_beta":
+        compare_beta(args.beta)
+
+    elif args.comparison == "compare_sigma":
+        compare_sigma(args.sigma)
+
+    elif args.comparison == "compare_gamma":
+        compare_gamma(args.gamma)
+
+    elif args.comparison == "beta_range":
+        beta_range()
+
+    elif args.comparison == "sigma_range":
+        sigma_range()
+
+    elif args.comparison == "gamma_range":
+        gamma_range()

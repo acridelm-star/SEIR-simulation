@@ -310,9 +310,9 @@ class simulation:
         ax[1].plot(range(len(self.I_hist)), self.I_hist, label = "Infected", color = colours[I])
         ax[1].plot(range(len(self.R_hist)), self.R_hist, label = "Recovered", color = colours[R])
         ax[1].plot(range(len(self.D_hist)), self.D_hist, label = "Dead", color = colours[D])
-        if self.cure_enabled and self.cure_step is not None:
-                ax[1].axvline(self.cure_step, color = "purple", linestyle = "--", linewidth = 1.5,
-                              label = "Cure introduced")
+        if self.cure_found and self.cure_step is not None:
+            ax[1].axvline(self.cure_step, color = "purple", linestyle = "--", linewidth = 1.5,
+                      label = "Cure introduced")
         ax[1].set_xlabel("Monte Carlo step")
         ax[1].set_ylabel("Number of Agents")
         ax[1].set_title("Monte Carlo simulation of an SEIR model")
@@ -358,7 +358,8 @@ class simulation:
             ax[1].plot(num_steps, self.I_hist, label = "Infected", color = colours[I])
             ax[1].plot(num_steps, self.R_hist, label = "Recovered", color = colours[R])
             ax[1].plot(num_steps, self.D_hist, label = "Dead", color = colours[D])
-            if self.cure_enabled and self.cure_step is not None:
+            # Only show the cure marker in the animation once the cure has been activated
+            if self.cure_found and self.cure_step is not None:
                 ax[1].axvline(self.cure_step, color = "purple", linestyle = "--", linewidth = 1.5,
                               label = "Cure introduced")
 

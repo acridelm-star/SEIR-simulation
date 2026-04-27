@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 from simulation_RK45 import simulation_RK45
 from simulation import simulation
+import argparse
 
 def compare_RK45_Euler(dt, beta, sigma, gamma):
 
@@ -41,4 +42,16 @@ def compare_RK45_Euler(dt, beta, sigma, gamma):
     plt.show()
     return fig
 
-compare_RK45_Euler(0.1, 1, 1, 0.1)
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description = "Compare the RK45 and Euler methods for solving the SEIR model")
+
+    #Add arguments for the parameters
+    parser.add_argument("--dt", default = 0.1, type = float)
+    parser.add_argument("--beta", default = 1.0, type = float)
+    parser.add_argument("--sigma", default = 1.0, type = float)
+    parser.add_argument("--gamma", default = 0.1, type = float)
+
+    #Parse the arguments
+    args = parser.parse_args()
+
+    compare_RK45_Euler(args.dt, args.beta, args.sigma, args.gamma)
