@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from simulation_RK45 import simulation_RK45
 
 #Run the simulation and store the results
-time, s, e, i, r = simulation_RK45(0.8, 0.2, 0, 0, 100,1, 1, 1, 0.1)
+time, s, e, i, r = simulation_RK45(0.95, 0.05, 0, 0, 100, 1, 1, 1, 0.1)
 
 #Plot the results
 fig, ax = plt.subplots()
