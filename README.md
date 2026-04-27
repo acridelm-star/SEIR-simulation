@@ -20,7 +20,7 @@ simulation.py           #Simulation of the Euler model
 Part_2/
 part2_oop.py            #File containing all the OOP code to create the model and run the simulation
 run_animation.py        #Create an animation of the simulation using the OOP
-run_static.py           #Create a graph of the simulation 
+run_static.py           #Create a graph of the simulation using the OOP
 
 ## Requirements
 
@@ -32,6 +32,8 @@ run_static.py           #Create a graph of the simulation
 ## How to run 
 
 ### Part 1 (Deterministic Model)
+
+* Ensure you have navigatd into the Part_1 subfolder of src or take this into account file directory when running file from command line 
 
 The simulation can be ran using the command line with the output being a graph of the simulation.
 
@@ -76,6 +78,7 @@ py analysis.py --comparison compare_gamma --gamma 0.4
 
 ### Part 2 (Stochastic model)
 
+* Ensure you have navigatd into the Part_2 subfolder of src or take this into account file directory when running file from command line 
 Two scripts are provided
 
 - run_static.py 
@@ -91,11 +94,19 @@ Both take the same arguments
 - gamma - the recovery rate (default 0.005)
 - steps - the number of steps the simulation will run for (default 1000)
 
-The scripts also have additional inputs that by default are off
+The scripts also have additional inputs that by default are not enabled
 - alpha - reinfection rate - allows R individuals to become E again
 - delta - death rate - allows infected individuals to die 
 - cure_enabled - enables a cure that will be found randomly after a minimum number of time steps (Takes boolean input)
-- cure_min - sets the minimum number of timesteps before the cure can be found (only relevant if cure_enabled = True)
+- cure_min - sets the minimum number of timesteps before the cure can be found (only relevant if cure_enabled = True, default value is 200 steps)
+
+#### Example Use
+
+Run animation with reinfection, death and the cure
+py run_animation.py --cure_enabled True --beta 0.5 --alpha 0.005 --delta 0.00001  
+
+Create graph with altered gamma values and death enabled 
+py run_static.py --gamma 0.1 --delta 0.0001
 
 ## Model description
 
