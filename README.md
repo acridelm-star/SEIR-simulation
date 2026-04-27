@@ -9,18 +9,18 @@ The project explores how the alteration of parameters affect the determination o
 ## Project structure
 
 Part_1/
-analysis.py             #Comparison of parameters of the deterministic model 
-plots.py                #RK45 model of SEIR
-RK45vsEuler_plots.py    #Plots comparing the Euler method to RK45
-seir_model_RK45.py      #Creation of the RK45 model
-seir_model.py           #Creation of the Euler model
-simulation_RK45.py      #Simulation of the RK45 model
-simulation.py           #Simulation of the Euler model
+- analysis.py             #Comparison of parameters of the deterministic model 
+- plots.py                #RK45 model of SEIR
+- RK45vsEuler_plots.py    #Plots comparing the Euler method to RK45
+- seir_model_RK45.py      #Creation of the RK45 model
+- seir_model.py           #Creation of the Euler model
+- simulation_RK45.py      #Simulation of the RK45 model
+- simulation.py           #Simulation of the Euler model
 
 Part_2/
-part2_oop.py            #File containing all the OOP code to create the model and run the simulation
-run_animation.py        #Create an animation of the simulation using the OOP
-run_static.py           #Create a graph of the simulation using the OOP
+- part2_oop.py            #File containing all the OOP code to create the model and run the simulation
+- run_animation.py        #Create an animation of the simulation using the OOP
+- run_static.py           #Create a graph of the simulation using the OOP
 
 ## Requirements
 
@@ -33,20 +33,20 @@ run_static.py           #Create a graph of the simulation using the OOP
 
 ### Part 1 (Deterministic Model)
 
-* Ensure you have navigatd into the Part_1 subfolder of src or take this into account file directory when running file from command line 
+*Ensure you have navigatd into the Part_1 subfolder of src or take this into account file directory when running file from command line*
 
 The simulation can be ran using the command line with the output being a graph of the simulation.
 
 Running plots.py will give a graph of the RK45 method under default conditions which are as follows
-s0 = 0.95
-e0 = 0.05
-i0 = 0
-r0 = 0
-time = 100
-dt = 1
-beat = 1
-sigma = 1
-gamma = 1
+- s0 = 0.95
+- e0 = 0.05
+- i0 = 0
+- r0 = 0
+- time = 100
+- dt = 1
+- beat = 1
+- sigma = 1
+- gamma = 1
 
 More thorough analysis can be carried out using RK45vsEuler_plots.py and analysis.py 
 
@@ -71,14 +71,14 @@ analysis.py is also controlled by command line arguments.
 
 ##### Example use
 Run multi parameter comparison:
-py analysis.py --comparison compare_parameters --beta 0.5 --sigma 0.8 --gamma 0.2
+- py analysis.py --comparison compare_parameters --beta 0.5 --sigma 0.8 --gamma 0.2
 
 Compare gamma values:
-py analysis.py --comparison compare_gamma --gamma 0.4
+- py analysis.py --comparison compare_gamma --gamma 0.4
 
 ### Part 2 (Stochastic model)
 
-* Ensure you have navigatd into the Part_2 subfolder of src or take this into account file directory when running file from command line 
+*Ensure you have navigatd into the Part_2 subfolder of src or take this into account file directory when running file from command line*
 Two scripts are provided
 
 - run_static.py 
@@ -103,10 +103,10 @@ The scripts also have additional inputs that by default are not enabled
 #### Example Use
 
 Run animation with reinfection, death and the cure
-py run_animation.py --cure_enabled True --beta 0.5 --alpha 0.005 --delta 0.00001  
+- py run_animation.py --cure_enabled True --beta 0.5 --alpha 0.005 --delta 0.00001  
 
 Create graph with altered gamma values and death enabled 
-py run_static.py --gamma 0.1 --delta 0.0001
+- py run_static.py --gamma 0.1 --delta 0.0001
 
 ## Model description
 
